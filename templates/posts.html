@@ -1,59 +1,53 @@
-{% extends "base.html" %} {% load humanize %} {% block content %} {% load static
-%} {% load cloudinary %}
+{% extends 'base.html' %}{% block content %} {% load static %}
 <section class="content">
-  <section class="head">
-    <div class="header">
-      <img src="static/img/techis-logo.png" alt="techis-logo" />
-      <h1>Home</h1>
-    </div>
-  </section>
+  <div class="header">
+    <img src="{% static 'img/twitter.png' %}" alt="" />
+    <h1>Home</h1>
+  </div>
   <section class="post_form">
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="/" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="logo">
-        <img src="{% static 'img/user.png' %}" />
-      </div>
-      <input
-        class="name"
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        required
-      />
-      <textarea name="body" placeholder="Whats happening?" required></textarea>
-      <input class="file" name="image" type="file" />
-      <button class="tweet" type="submit">Tweet</button>
+      <input type="text" name="name" placeholder="Name" required /><br />
+      <textarea name="body" placeholder="Tell us anything" required></textarea
+      ><br />
+      <input id="chosefile" type="file" name="image" />
+
+      <input id="button" type="submit" value="Tweet" />
     </form>
   </section>
+
   <section class="posts">
     <ul>
       {% for post in posts %}
       <li>
-        <img
-          class="menu_icon js-menu-icon"
-          src="{% static 'img/option.png' %}"
-        />
+        <img class="menu_icon js-menu-icon" src="{% static 'img/menu.png' %}" />
         <div class="menu">
-          <a href="/edit/{{post.id}}/">Edit</a><br />
-          <a href="/delete/{{post.id}}/">Delete</a>
+          <a href="/delete/{{post.id}}/">Delete</a><br />
+          <a href="/edit/{{post.id}}/">Edit</a>
         </div>
         <div class="logo">
           <img src="{% static 'img/user.png' %}" />
         </div>
         <div class="name_body">
-          <div class="name">{{ post.name}}</div>
-          <div class="datetime">{{ post.created_at|naturaltime }}</div>
-          <p>{{ post.body}}</p>
+          <div class="name">{{post.name}}</div>
+          <div class="datetime">{{post.created_at}}</div>
+          <p>{{post.body}}</p>
+          {% if post.image.url %}
+          <img
+            src="{{post.image.url}}"
+            alt="image"
+            style="width: 250px; height: 200px;"
+          />
+          {%endif %}
 
-          {% if post.image %}
-          <img class="image" src="{{ post.image.url}}" style="width: 100%;" />
-
-          {% endif %}
-          <div class="icon_list">
-            <a href="/likes/{{post.id}}/">
-              <img class="like" src="{% static 'img/heart.svg' %}"
+          <div>
+            <a href="/like/{{post.id}}"
+              ><img
+                src="{% static 'img/like.png' %}"
+                alt="like"
+                style="width: 30px;"
             /></a>
-            {{ post.like_count }}
+            {{post.likecount}}
           </div>
         </div>
       </li>
@@ -65,7 +59,7 @@
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"
   ></script>
-  <script src="{%static 'js/posts.js'%}"></script>
+  <script src="{% static 'js/posts.js' %}"></script>
 </section>
 
 {% endblock %}
