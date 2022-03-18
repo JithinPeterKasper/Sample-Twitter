@@ -10,7 +10,9 @@
   <section class="post_form">
     <form action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-
+      <div class="logo">
+        <img src="{%static 'img/user.png'%}" alt="" />
+      </div>
       <input
         class="name"
         type="text"
